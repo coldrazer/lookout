@@ -73,8 +73,9 @@ struct ContentView: View {
                     Label("Text \(displayCaregiver)", systemImage: "message.fill")
                 }
                 .buttonStyle(.borderedProminent)
-                .tint(.white)
-                .foregroundStyle(.red)
+                // When disabled, switch to a translucent white look so the label stays legible on the red card.
+                .tint(smsURL(for: message) == nil ? .white.opacity(0.25) : .white)
+                .foregroundStyle(smsURL(for: message) == nil ? .white : .red)
                 .disabled(smsURL(for: message) == nil)
 
                 ShareLink(item: message) {
