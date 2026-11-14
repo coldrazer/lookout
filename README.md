@@ -5,8 +5,8 @@
 <p align="center">
   <img src="https://img.shields.io/badge/platform-iOS%2026%2B-0A0D26?style=for-the-badge&logo=apple&logoColor=white" alt="iOS 26+">
   <img src="https://img.shields.io/badge/Swift-SwiftUI-F05138?style=for-the-badge&logo=swift&logoColor=white" alt="Swift / SwiftUI">
-  <img src="https://img.shields.io/badge/AI-Agentic%20%C2%B7%20On--Device-6673FF?style=for-the-badge" alt="Agentic AI, on-device">
-  <img src="https://img.shields.io/badge/privacy-no%20network%20%C2%B7%20no%20API%20key-33BFD9?style=for-the-badge" alt="Privacy first">
+  <img src="https://img.shields.io/badge/AI-Agentic%20%C2%B7%20Gemini%20API-6673FF?style=for-the-badge" alt="Agentic AI, Gemini API">
+  <img src="https://img.shields.io/badge/API-Gemini%20%C2%B7%20Deepgram-33BFD9?style=for-the-badge" alt="Uses API keys: Gemini API and Deepgram">
   <img src="https://img.shields.io/badge/license-Apache%202.0-444?style=for-the-badge" alt="Apache 2.0">
 </p>
 
@@ -14,7 +14,8 @@
 
 <p align="center">
   <b>Lookout</b> listens to a phone call, spots the tell-tale signs of a scam as they happen,<br>
-  steps in with a spoken warning, and lets a trusted caregiver know, all on the device.
+  steps in with a spoken warning, and lets a trusted caregiver know. Live transcription runs on Deepgram<br>
+  and the scoring decisions run on the Gemini API, both reached with API keys.
 </p>
 
 ---
@@ -42,8 +43,8 @@ Lookout runs as a small autonomous agent. It doesn't wait to be asked. It watche
 
 | Stage | What happens | Where |
 | --- | --- | --- |
-| **Listen** | Streams the mic into Apple's speech recognizer, on-device when supported, so the audio stays on the phone. | `LiveListener.swift` |
-| **Score** | Each transcript update is checked against weighted scam markers. Risk = `1 − ∏(1 − weight)` over the distinct markers heard. | `ScamScorer.swift` |
+| **Listen** | Streams call audio to Deepgram, which returns the live transcript plus a confidence score for every word. | `LiveListener.swift` |
+| **Score** | Each transcript update goes to the Gemini API, which scores it with the Gemini decision matrix. Risk = `1 − ∏(1 − weight)` over the distinct markers heard. | `ScamScorer.swift` |
 | **Interrupt** | When risk crosses **80%**, Lookout plays a warning (*"Rosa, this sounds like a scam. Hang up and call Maria."*) and buzzes. | `LookoutEngine.swift` |
 | **Escalate** | Writes a summary of the call for the caregiver, ready to send by SMS or the share sheet. | `ContentView.swift` |
 
@@ -66,7 +67,7 @@ Phrases match on word boundaries, so *"available"* won't trigger *"bail"*. The s
 
 - **🎭 Demo scam call**: plays a scripted "grandparent scam" out loud and scores it line by line. Works in the Simulator.
 - **🎧 Listen live**: put a real call on speaker and Lookout transcribes and scores it as it happens.
-- **🔒 Private by design**: no network calls, no API keys, and on-device speech recognition when the device supports it.
+- **🔑 API powered**: Lookout uses API keys. Deepgram streams the live transcription and the Gemini API makes the scoring decisions.
 - **👥 Personalized**: set the wearer's and caregiver's names and the caregiver's phone number under **People**.
 - **💬 One-tap escalation**: text the caregiver a ready-made summary, or share it any other way.
 
