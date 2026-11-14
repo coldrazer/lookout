@@ -11,3 +11,10 @@ build/
 # Swift Package Manager
 .build/
 .swiftpm/
+
+# API keys and local secrets (bring your own keys; never commit them)
+Secrets.xcconfig
+Secrets.swift
+APIKeys.plist
+.env
+.env.*

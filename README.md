@@ -20,6 +20,15 @@
 
 ---
 
+## 🍴 Fork it and make your own
+
+Lookout is a **free demo**, released under Apache 2.0 so anyone can fork it and build their own version.
+
+1. **Fork or clone** this repo and open it in Xcode.
+2. **Bring your own API keys.** Live transcription runs on Deepgram and the scoring decisions run on the Gemini API. Both offer free tiers that are plenty for a demo.
+3. **Keep your keys out of git.** Copy `Secrets.example.xcconfig` to `Secrets.xcconfig`, fill in your own keys, and never commit the real file. It is already covered by `.gitignore`. A leaked key gets revoked and can get your whole project shut down.
+4. **Make it yours.** Change the wearer and caregiver names, tune the scam markers and weights, and set the alert threshold where you want it.
+
 ## ✨ Screenshots
 
 <table align="center">
