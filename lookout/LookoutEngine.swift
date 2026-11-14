@@ -31,6 +31,7 @@ final class LookoutEngine {
     @ObservationIgnored private let scorer: ScamScoring = KeywordScamScorer()
     @ObservationIgnored private let voice = AVSpeechSynthesizer()
     @ObservationIgnored private let speechCoordinator = SpeechCoordinator()
+    @ObservationIgnored private var alertPlayer: AVAudioPlayer?
     @ObservationIgnored private let listener = LiveListener()
     @ObservationIgnored private var demoTask: Task<Void, Never>?
 
@@ -124,6 +125,7 @@ final class LookoutEngine {
         listener.stop()
         speechCoordinator.cancelPending()
         voice.stopSpeaking(at: .immediate)
+        alertPlayer?.stop()
         if mode != .alerted {
             mode = .idle
             deactivatePlaybackSession()
@@ -136,6 +138,7 @@ final class LookoutEngine {
         listener.stop()
         speechCoordinator.cancelPending()
         voice.stopSpeaking(at: .immediate)
+        alertPlayer?.stop()
         mode = .idle
         lines = []
         assessment = ScamAssessment()
@@ -159,6 +162,7 @@ final class LookoutEngine {
         listener.stop()
         speechCoordinator.cancelPending()
         voice.stopSpeaking(at: .immediate)
+        alertPlayer?.stop()
         mode = .alerted
 
         let message = warningMessage(wearer: wearerName, caregiver: caregiverName)
@@ -166,7 +170,20 @@ final class LookoutEngine {
         // Phone haptics and speaker stand in for the band. Swap these two calls for the band SDK.
         preparePlayback()
         buzz()
-        say(message, asCaller: false)
+        if !playRecordedAlert() {
+            say(message, asCaller: false)
+        }
+    }
+
+    /// Plays the pre-recorded warning bundled as `scam_alert.wav`.
+    /// Returns false if the file is missing or can't play, so the caller can fall back to speech.
+    private func playRecordedAlert() -> Bool {
+        guard let url = Bundle.main.url(forResource: "scam_alert", withExtension: "wav"),
+              let player = try? AVAudioPlayer(contentsOf: url) else {
+            return false
+        }
+        alertPlayer = player
+        return player.play()
     }
 
     private func buzz() {
@@ -195,10 +212,33 @@ final class LookoutEngine {
 
     private func makeUtterance(_ text: String, asCaller: Bool) -> AVSpeechUtterance {
         let utterance = AVSpeechUtterance(string: text)
-        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
-        utterance.rate = asCaller ? 0.52 : 0.46
-        utterance.pitchMultiplier = asCaller ? 1.25 : 0.95
+        if asCaller {
+            utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+            utterance.rate = 0.52
+            utterance.pitchMultiplier = 1.25
+        } else {
+            // Natural-sounding alert: best installed voice, default rate and pitch
+            // (altering pitch is what makes synthesized speech sound robotic).
+            utterance.voice = Self.mostNaturalVoice
+            utterance.rate = AVSpeechUtteranceDefaultSpeechRate
+            utterance.pitchMultiplier = 1.0
+            utterance.preUtteranceDelay = 0.15
+        }
         return utterance
+    }
+
+    /// Picks the highest-quality installed English voice: Premium, then Enhanced, then the default.
+    /// Premium and Enhanced voices are downloaded in Settings > Accessibility > Spoken Content > Voices.
+    private static var mostNaturalVoice: AVSpeechSynthesisVoice? {
+        let english = AVSpeechSynthesisVoice.speechVoices().filter {
+            $0.language.hasPrefix("en") && !$0.voiceTraits.contains(.isNoveltyVoice)
+        }
+        func rank(_ voice: AVSpeechSynthesisVoice) -> Int {
+            let quality = voice.quality == .premium ? 2 : (voice.quality == .enhanced ? 1 : 0)
+            // Prefer US English among voices of equal quality.
+            return quality * 2 + (voice.language == "en-US" ? 1 : 0)
+        }
+        return english.max { rank($0) < rank($1) } ?? AVSpeechSynthesisVoice(language: "en-US")
     }
 
     private func preparePlayback() {

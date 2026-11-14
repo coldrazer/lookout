@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="400" viewBox="0 0 1280 400" role="img" aria-label="Lookout: an on-device agentic AI guardian that listens to calls, scores scam risk, and steps in">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0A0D26"/>
+      <stop offset="0.5" stop-color="#140F40"/>
+      <stop offset="1" stop-color="#051A33"/>
+    </linearGradient>
+    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8CA6FF"/>
+      <stop offset="1" stop-color="#4DF2D9"/>
+    </linearGradient>
+    <linearGradient id="pill" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#6673FF"/>
+      <stop offset="1" stop-color="#33BFD9"/>
+    </linearGradient>
+    <radialGradient id="glowA"><stop offset="0" stop-color="#5966FF" stop-opacity="0.55"/><stop offset="1" stop-color="#5966FF" stop-opacity="0"/></radialGradient>
+    <radialGradient id="glowB"><stop offset="0" stop-color="#1AD9CC" stop-opacity="0.40"/><stop offset="1" stop-color="#1AD9CC" stop-opacity="0"/></radialGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#FFFFFF" stroke-opacity="0.04"/>
+    </pattern>
+    <filter id="soft"><feGaussianBlur stdDeviation="6"/></filter>
+  </defs>
+
+  <rect width="1280" height="400" fill="url(#bg)"/>
+  <rect width="1280" height="400" fill="url(#grid)"/>
+  <circle cx="240" cy="90" r="320" fill="url(#glowA)">
+    <animate attributeName="cx" values="220;280;220" dur="10s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="1100" cy="380" r="300" fill="url(#glowB)">
+    <animate attributeName="cy" values="380;330;380" dur="12s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Emblem: shield with pulsing rings -->
+  <g transform="translate(190 200)">
+    <circle r="120" fill="none" stroke="#FFFFFF" stroke-opacity="0.06">
+      <animate attributeName="r" values="112;124;112" dur="4.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="96" fill="none" stroke="#FFFFFF" stroke-opacity="0.10">
+      <animate attributeName="r" values="90;100;90" dur="4.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="72" fill="#FFFFFF" fill-opacity="0.07" stroke="#FFFFFF" stroke-opacity="0.25"/>
+    <circle r="72" fill="#6680FF" fill-opacity="0.25" filter="url(#soft)"/>
+    <path d="M0 -40 L32 -28 V2 C32 24 18 38 0 46 C-18 38 -32 24 -32 2 V-28 Z" fill="url(#brand)" opacity="0.95"/>
+    <path d="M0 -40 L32 -28 V2 C32 24 18 38 0 46 Z" fill="#0A0D26" opacity="0.35"/>
+  </g>
+
+  <!-- Title -->
+  <g font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Rounded', 'Segoe UI', Helvetica, Arial, sans-serif">
+    <rect x="360" y="78" width="330" height="34" rx="17" fill="url(#pill)" opacity="0.9"/>
+    <circle cx="380" cy="95" r="5" fill="#FFFFFF">
+      <animate attributeName="opacity" values="1;0.3;1" dur="1.6s" repeatCount="indefinite"/>
+    </circle>
+    <text x="394" y="101" font-size="15" font-weight="700" letter-spacing="2.5" fill="#FFFFFF">AGENTIC AI · ON-DEVICE</text>
+
+    <text x="356" y="196" font-size="92" font-weight="800" letter-spacing="-2" fill="#FFFFFF">Lookout</text>
+    <text x="362" y="240" font-size="26" font-weight="500" fill="#FFFFFF" fill-opacity="0.75">A gentle guardian for every call.</text>
+  </g>
+
+  <!-- Agent loop: listen → score → interrupt → escalate -->
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" font-weight="600">
+    <g transform="translate(362 290)">
+      <rect width="150" height="44" rx="12" fill="#FFFFFF" fill-opacity="0.06" stroke="#8CA6FF" stroke-opacity="0.5"/>
+      <text x="75" y="28" text-anchor="middle" fill="#C9D4FF">🎙 listen</text>
+    </g>
+    <g transform="translate(552 290)">
+      <rect width="150" height="44" rx="12" fill="#FFFFFF" fill-opacity="0.06" stroke="#8CA6FF" stroke-opacity="0.5"/>
+      <text x="75" y="28" text-anchor="middle" fill="#C9D4FF">📊 score</text>
+    </g>
+    <g transform="translate(742 290)">
+      <rect width="150" height="44" rx="12" fill="#FF3B3B" fill-opacity="0.15" stroke="#FF6B6B" stroke-opacity="0.7"/>
+      <text x="75" y="28" text-anchor="middle" fill="#FFC2C2">⚠️ interrupt</text>
+    </g>
+    <g transform="translate(932 290)">
+      <rect width="150" height="44" rx="12" fill="#FFFFFF" fill-opacity="0.06" stroke="#4DF2D9" stroke-opacity="0.55"/>
+      <text x="75" y="28" text-anchor="middle" fill="#B8FFF4">📲 escalate</text>
+    </g>
+    <g stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="2" stroke-dasharray="4 6" fill="none">
+      <path d="M514 312 H550"><animate attributeName="stroke-dashoffset" values="20;0" dur="1s" repeatCount="indefinite"/></path>
+      <path d="M704 312 H740"><animate attributeName="stroke-dashoffset" values="20;0" dur="1s" repeatCount="indefinite"/></path>
+      <path d="M894 312 H930"><animate attributeName="stroke-dashoffset" values="20;0" dur="1s" repeatCount="indefinite"/></path>
+    </g>
+  </g>
+
+  <!-- Live risk meter -->
+  <g transform="translate(1010 92)" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+    <text x="0" y="0" font-size="13" font-weight="700" letter-spacing="2" fill="#FFFFFF" fill-opacity="0.55">SCAM RISK</text>
+    <text x="210" y="8" text-anchor="end" font-size="40" font-weight="800" fill="#FF5A5A">87%</text>
+    <rect x="0" y="26" width="210" height="10" rx="5" fill="#FFFFFF" fill-opacity="0.12"/>
+    <rect x="0" y="26" width="183" height="10" rx="5" fill="#FF4545">
+      <animate attributeName="width" values="20;120;183;183" keyTimes="0;0.4;0.7;1" dur="5s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="167" y="22" width="2" height="18" fill="#FFFFFF" fill-opacity="0.8"/>
+  </g>
+</svg>
